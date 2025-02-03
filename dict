@@ -1,0 +1,78 @@
+#!/bin/python3
+
+import gi
+gi.require_version("Gtk", "3.0")
+gi.require_version("WebKit2", "4.1")
+from gi.repository import Gtk, WebKit2
+
+import sys
+
+class WebViewApp(Gtk.Window):
+    def __init__(self):
+        super().__init__(title="dict")
+
+        self.set_default_size(800, 600)
+
+        # MAIN CONTAINER
+        main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+
+        main_box.set_margin_top(20)
+        main_box.set_margin_bottom(20)
+        main_box.set_margin_start(20)
+        main_box.set_margin_end(20)
+
+        self.add(main_box)
+
+        ##############################################
+
+        # SEARCH BAR
+        self.search_entry = Gtk.Entry()
+        self.search_entry.set_placeholder_text("Search...")
+
+        self.search_entry.set_margin_bottom(10)
+        self.search_entry.set_margin_left(100)
+        self.search_entry.set_margin_right(100)
+        
+        main_box.pack_start(self.search_entry, False, False, 0)
+        self.search_entry.connect("activate", self.on_search_activate)
+
+        ##############################################
+
+        # WEBVIEW CONTAINER BOX
+        webview_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        main_box.pack_start(webview_box, True, True, 0)
+
+        ##############################################
+
+        # WEBVIEW 1
+        self.webview1 = WebKit2.WebView()
+        self.webview1.get_settings().set_property("enable-javascript", False)
+
+        if len(sys.argv) > 1:
+            self.webview1.load_uri(f"https://olam.in/dictionary/english/malayalam/{sys.argv[1]}")
+
+        webview_box.pack_start(self.webview1, True, True, 0)
+
+        ##############################################
+
+        # WEBVIEW 2
+        self.webview2 = WebKit2.WebView()
+        self.webview2.get_settings().set_property("enable-javascript", False)
+
+        if len(sys.argv) > 1:
+            self.webview2.load_uri(f"https://www.merriam-webster.com/dictionary/{sys.argv[1]}")
+
+        webview_box.pack_start(self.webview2, True, True, 0)
+
+    ##############################################
+
+    # SEARCH FUNCTION
+    def on_search_activate(self, widget):
+        query = self.search_entry.get_text()
+        self.webview1.load_uri(f"https://olam.in/dictionary/english/malayalam/{query}")
+        self.webview2.load_uri(f"https://www.merriam-webster.com/dictionary/{query}")
+
+win = WebViewApp()
+win.connect("destroy", Gtk.main_quit)
+win.show_all()
+Gtk.main()
