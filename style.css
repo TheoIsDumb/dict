@@ -1,0 +1,10 @@
+window {
+    background-color: #0c0c0c;
+}
+
+entry {
+	border: 2px solid dodgerblue;
+	border-radius: 3rem;
+	padding: 0.2rem 2rem;
+	font-size: 1rem;
+}
