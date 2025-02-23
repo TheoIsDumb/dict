@@ -23,6 +23,14 @@ class WebViewApp(Gtk.Window):
 
         self.add(main_box)
 
+        css_provider = Gtk.CssProvider()
+        css_provider.load_from_path("style.css")
+        
+        # Apply the CSS to the default screen
+        Gtk.StyleContext.add_provider_for_screen(
+            Gtk.Window.get_screen(self), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+
         ##############################################
 
         # SEARCH BAR
