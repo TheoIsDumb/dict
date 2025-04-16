@@ -23,14 +23,6 @@ class WebViewApp(Gtk.Window):
 
         self.add(main_box)
 
-        css_provider = Gtk.CssProvider()
-        css_provider.load_from_path("style.css")
-        
-        # Apply the CSS to the default screen
-        Gtk.StyleContext.add_provider_for_screen(
-            Gtk.Window.get_screen(self), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-        )
-
         ##############################################
 
         # SEARCH BAR
@@ -54,6 +46,7 @@ class WebViewApp(Gtk.Window):
 
         # WEBVIEW 1
         self.webview1 = WebKit2.WebView()
+        self.webview1.set_zoom_level(1.7)
         self.webview1.get_settings().set_property("enable-javascript", False)
 
         if len(sys.argv) > 1:
@@ -65,6 +58,7 @@ class WebViewApp(Gtk.Window):
 
         # WEBVIEW 2
         self.webview2 = WebKit2.WebView()
+        self.webview2.set_zoom_level(1.7)
         self.webview2.get_settings().set_property("enable-javascript", False)
 
         if len(sys.argv) > 1:
